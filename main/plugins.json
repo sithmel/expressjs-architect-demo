@@ -1,0 +1,9 @@
+[
+  {
+      "packagePath": "../exp",
+      "port": 3000
+  },
+  {
+      "packagePath": "../app1"
+  }
+]
