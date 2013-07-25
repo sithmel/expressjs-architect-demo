@@ -3,12 +3,9 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , http = require('http')
-  , path = require('path');
-
-//require('./enableMultipleViewRoots')(express); // patch express for using
-                                               // multiple view path
+var express = require('express'),
+    http = require('http'),
+    path = require('path');
 
 module.exports = function setup(options, imports, register) {
 
@@ -16,7 +13,6 @@ module.exports = function setup(options, imports, register) {
 
     // all environments
     expr.set('port', options.port);
-//    expr.set('views', path.join(__dirname, '..'));
     expr.set('views', "/");
         
     expr.set('view engine', 'ejs');
@@ -27,7 +23,6 @@ module.exports = function setup(options, imports, register) {
     expr.use(express.cookieParser('your secret here'));
     expr.use(express.session());
     expr.use(expr.router);
-    //expr.use(express.static(path.join(__dirname, 'public')));
 
     // development only
     if ('development' == expr.get('env')) {
@@ -38,6 +33,11 @@ module.exports = function setup(options, imports, register) {
       console.log('Express server listening on port ' + expr.get('port'));
     });
 
+    // Warning!! I had to wrap the expr object in another object due to a bug in
+    // architect 0.1.10
+    // This is already fixed in the master:
+    // https://github.com/c9/architect/commit/101cf53f58a5dac5e1c5aa7c9487a1afda630c4c
+    
     register(null, {exp: {func: expr}});
 };
 
